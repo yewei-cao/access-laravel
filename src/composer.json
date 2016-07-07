@@ -1,0 +1,14 @@
+{
+    "name": "yewei/access-laravel",
+    "description": "permission plguin for laravel",
+    "type": "plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yewei Cao",
+            "email": "yeweicao@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
