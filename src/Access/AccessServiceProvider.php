@@ -19,6 +19,10 @@ class AccessServiceProvider extends ServiceProvider
     	], 'migrations');
     	
     	$this->publishes([
+    			__DIR__ . '/seeds/' => base_path('/database/seeds')
+    	], 'seeds');
+    	
+    	$this->publishes([
     			__DIR__ . '/../config/access.php' => config_path('access.php')
     	], 'config');
     	
