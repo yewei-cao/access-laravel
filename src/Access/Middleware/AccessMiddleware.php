@@ -36,7 +36,7 @@ class AccessMiddleware
     {
     	$permission = $request->route()->getName();
     	
-    	if (! $this->auth->user()->RoutemMatchPermission($permission)) {
+    	if ((! $this->auth->user()->RoutemMatchPermission($permission))&&($permission)) {
     		throw new PermissionDeniedException($permission);
     	}
     	

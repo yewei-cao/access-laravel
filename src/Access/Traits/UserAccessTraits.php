@@ -15,6 +15,11 @@ trait UserAccessTRaits {
 	 */
 	protected $roles;
 	
+	protected $operations = [
+			'index','store','create','show','edit','update','destory'
+	];
+	
+	
 	/**
 	 * Handle dynamic method calls.
 	 *
@@ -222,15 +227,52 @@ trait UserAccessTRaits {
 	 */
 	public function RoutemMatchPermission($routes_str){
 		
-		$routes = explode(".",$routes_str);
+		preg_match('/\w+$/',$routes_str,$operation);
 		
-		foreach ($routes as $route){
+		if(in_array($operation[0], $this->operations)){
 			
-			if(!$this->checkPerm($route)){
+			$route_head = preg_split('/\.\w+\.\w+$/',$routes_str);
+			
+			if(!$this->RoutePermission($route_head[0])){
 				return false;
 			}
 			
+			preg_match('/\w+\.\w+$/',$routes_str,$accurate_pers);
+			
+			$accurate_route = explode(".",$accurate_pers[0]);
+			
+			if(!$this->checkPerm($accurate_route[0])){
+				
+				if($this->hasPermission($accurate_pers[0])){
+					
+					return true;
+				}
+				return false;
+			}
+			return true;
+		}else{
+			return $this->RoutePermission($routes_str);
 		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $routes_str
+	 * @return boolean
+	 */
+	public function RoutePermission($routes_str){
+		
+		$routes = explode(".",$routes_str);
+		
+		foreach ($routes as $route){
+		
+			if(!$this->checkPerm($route)){
+				return false;
+			}
+		
+		}
+			
 		return true;
 	}
 	
